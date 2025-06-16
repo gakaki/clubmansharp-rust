@@ -1,0 +1,29 @@
+[package]
+name = "gt7-telemetry"
+version = "0.1.0"
+edition = "2021"
+authors = ["ClubmanSharp Contributors"]
+description = "GT7遥测数据库 - 参考gt7telemetry Python库实现"
+license = "MIT"
+
+[dependencies]
+# 工作空间依赖
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+log = { workspace = true }
+byteorder = { workspace = true }
+bytes = { workspace = true }
+chrono = { workspace = true }
+
+# 网络通信
+socket2 = "0.5"
+
+# 二进制数据解析
+nom = "7.1"
+
+[lib]
+name = "gt7_telemetry"
+crate-type = ["lib"]
