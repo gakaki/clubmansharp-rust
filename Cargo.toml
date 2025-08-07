@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "clubman-sharp-rust",    # 主应用程序
+    # "clubman-sharp-rust",    # 主应用程序 (暂不包含)
     "rust-vgamepad",         # 虚拟游戏手柄库 (参考Python vgamepad)
     "gt7-telemetry",         # GT7遥测数据库 (参考GT7 telemetry Python库)
 ]

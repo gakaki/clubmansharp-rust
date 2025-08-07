@@ -82,8 +82,11 @@ pub enum GT7Error {
     },
 
     /// 文件I/O错误
-    #[error("文件操作错误: {operation} 失败")]
-    FileError { operation: String },
+    #[error("文件I/O错误: {operation}, 原因: {reason}")]
+    IoError {
+        operation: String,
+        reason: String,
+    },
 
     /// 序列化错误
     #[error("序列化错误")]
@@ -190,10 +193,11 @@ impl GT7Error {
         }
     }
 
-    /// 创建文件错误
-    pub fn file_error(operation: impl Into<String>) -> Self {
-        Self::FileError {
+    /// 创建IO错误
+    pub fn io_error(operation: impl Into<String>, reason: impl Into<String>) -> Self {
+        Self::IoError {
             operation: operation.into(),
+            reason: reason.into(),
         }
     }
 
