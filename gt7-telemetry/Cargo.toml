@@ -24,6 +24,9 @@ socket2 = "0.5"
 # 二进制数据解析
 nom = "7.1"
 
+# 虚拟手柄
+rust-vgamepad = { path = "../rust-vgamepad" }
+
 [dev-dependencies]
 tempfile = "3.3"
 

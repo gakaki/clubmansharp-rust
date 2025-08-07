@@ -31,6 +31,9 @@ pub struct VGamepadClient {
     
     #[cfg(target_os = "macos")]
     inner: macos::MacOSClient,
+
+    #[cfg(not(any(windows, target_os = "macos")))]
+    inner: (),
 }
 
 impl VGamepadClient {
@@ -39,6 +42,7 @@ impl VGamepadClient {
     /// # 错误
     /// 
     /// 如果无法初始化底层驱动程序（如ViGEm）则返回错误
+    #[cfg(any(windows, target_os = "macos"))]
     pub fn new() -> Result<Self> {
         log::info!("正在初始化虚拟游戏手柄客户端...");
         
@@ -48,6 +52,13 @@ impl VGamepadClient {
             
             #[cfg(target_os = "macos")]
             inner: macos::MacOSClient::new()?,
+        })
+    }
+
+    #[cfg(not(any(windows, target_os = "macos")))]
+    pub fn new() -> Result<Self> {
+        Ok(Self {
+            inner: (),
         })
     }
     

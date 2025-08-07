@@ -159,7 +159,7 @@ impl Default for DS4ControllerState {
 /// DualShock4虚拟控制器 (参考vgamepad的DualShock4Controller)
 pub struct DualShock4Controller {
     /// 控制器当前状态
-    state: DS4ControllerState,
+    pub state: DS4ControllerState,
     
     /// 平台特定的内部实现
     #[cfg(windows)]
@@ -167,6 +167,9 @@ pub struct DualShock4Controller {
     
     #[cfg(target_os = "macos")]
     inner: crate::macos::MacOSDS4Controller,
+
+    #[cfg(not(any(windows, target_os = "macos")))]
+    inner: (),
 }
 
 impl DualShock4Controller {
@@ -190,6 +193,14 @@ impl DualShock4Controller {
         })
     }
     
+    #[cfg(not(any(windows, target_os = "macos")))]
+    pub fn new(_client: &()) -> Result<Self> {
+        Ok(Self {
+            state: DS4ControllerState::default(),
+            inner: (),
+        })
+    }
+
     /// 按下按键 (参考vgamepad的press_button)
     pub fn press_button(&mut self, button: DS4Button) -> Result<()> {
         log::debug!("按下按键: {:?}", button);
@@ -290,7 +301,15 @@ impl DualShock4Controller {
     }
     
     /// 更新控制器状态到系统 (参考vgamepad的update)
+    #[cfg(any(windows, target_os = "macos"))]
     pub fn update(&mut self) -> Result<()> {
         self.inner.update(&self.state)
+    }
+
+    #[cfg(not(any(windows, target_os = "macos")))]
+    pub fn update(&mut self) -> Result<()> {
+        // 在非windows/macos环境下，只打印日志，不执行任何操作
+        log::warn!("在当前平台不支持虚拟手柄更新");
+        Ok(())
     }
 }

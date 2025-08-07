@@ -8,12 +8,14 @@ pub mod packet;
 pub mod client;
 pub mod types;
 pub mod recorder;
+pub mod autopilot;
 
 pub use error::{GT7Error, Result};
 pub use packet::{GT7TelemetryPacket, GameState, CarInfo, TrackInfo};
 pub use client::GT7TelemetryClient;
 pub use types::*;
 pub use recorder::{RecordedTrack, TrackRecorder, RecordingMode};
+pub use autopilot::Autopilot;
 use std::path::Path;
 
 /// 从JSON文件加载记录的赛道数据
